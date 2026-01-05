@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Template {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  // JSON layout tokens for slide styling
+  data        String
+  thumbnail   String?  // path to uploaded image
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Order {
+  id          String   @id @default(cuid())
+  email       String?
+  amount      Int      // cents
+  currency    String   @default("USD")
+  status      String   @default("CREATED") // CREATED | PAID | FAILED
+  paypalOrder String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
